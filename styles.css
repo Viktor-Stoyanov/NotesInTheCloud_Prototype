@@ -68,8 +68,8 @@ main {
     text-align: center;
 }
 
-#delete-btn,
-#edit-btn {
+.delete-note-btn,
+.edit-note-btn {
     position: absolute;
     bottom: 10px;
     padding: 10px 20px;
@@ -83,21 +83,20 @@ main {
     transition: background-color 0.3s ease;
 }
 
-#edit-btn {
+.edit-note-btn {
     left: 50px;
     background-color: #007bff;
 }
 
-#delete-btn {
+.delete-note-btn {
     right: 50px;
 }
 
-#delete-btn:hover,
-#edit-btn:hover {
+.delete-note-btn:hover {
     background-color: #c82333;
 }
 
-#edit-btn:hover {
+.edit-note-btn:hover {
     background-color: #0056b3;
 }
 
