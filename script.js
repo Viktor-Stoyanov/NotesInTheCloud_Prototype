@@ -5,9 +5,13 @@ document.addEventListener("DOMContentLoaded", function() {
     const closeModalBtn = document.getElementById("close-modal-btn");
     const modal = document.getElementById("note-modal");
     const newNoteForm = document.getElementById("edit-note-form");
+    const welcomeMessage = document.getElementById("welcome-message");
+    const logoutBtn = document.getElementById("logout-btn");
+    let editNodeIndex = null;
 
-    var editNodeIndex = null;
-
+    function setWelcomeMessage(username) {
+        welcomeMessage.textContent = `Hi, ${username}`;
+    }
 
     function displayNotes() {
         const notes = JSON.parse(localStorage.getItem("notes")) || [];
@@ -28,9 +32,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function deleteNote(index) {
         const notes = JSON.parse(localStorage.getItem("notes")) || [];
-        notes.splice(index, 1); // Remove the note at the specified index
+        notes.splice(index, 1);
         localStorage.setItem("notes", JSON.stringify(notes));
-        displayNotes(); // Refresh the list of notes
+        displayNotes();
     }
 
     function deleteNoteButtonHandler(event) {
@@ -42,22 +46,16 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     
     function editNoteButtonHandler(event) {
-        if(event.target.classList.contains("edit-note-btn")) {
-
+        if (event.target.classList.contains("edit-note-btn")) {
             const noteElements = Array.from(document.querySelectorAll(".edit-note-btn"));
             const index = noteElements.indexOf(event.target);
             editNodeIndex = index;
 
-            // Retrieve existing notes from localStorage or initialize an empty array
             const existingNotes = JSON.parse(localStorage.getItem("notes")) || [];
-            const existingNoteName = existingNotes[index].name;
-            const existingNoteContent = existingNotes[index].content;
+            const existingNote = existingNotes[index];
             
-            const nameInput = document.getElementById("note-name");
-            const contentInput = document.getElementById("note-content");
-            
-            nameInput.value = existingNoteName;
-            contentInput.value = existingNoteContent;
+            document.getElementById("note-name").value = existingNote.name;
+            document.getElementById("note-content").value = existingNote.content;
             
             modal.style.display = "block";
         }
@@ -66,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function() {
     newNoteForm.addEventListener("submit", function(event) {
         event.preventDefault();
 
-        if (editNodeIndex != null) {
+        if (editNodeIndex !== null) {
             deleteNote(editNodeIndex);
         }
         
@@ -74,11 +72,9 @@ document.addEventListener("DOMContentLoaded", function() {
         const noteContent = document.getElementById("note-content").value;
         
         const existingNotes = JSON.parse(localStorage.getItem("notes")) || [];
-        
         existingNotes.push({ name: noteName, content: noteContent });
         
         localStorage.setItem("notes", JSON.stringify(existingNotes));
-        
         closeModal();
         displayNotes();
     });
@@ -91,13 +87,10 @@ document.addEventListener("DOMContentLoaded", function() {
     newNoteBtn.addEventListener("click", function() {
         document.getElementById("note-name").value = "";
         document.getElementById("note-content").value = "";
-
         modal.style.display = "block";
     });
 
-    closeModalBtn.addEventListener("click", function() {
-        closeModal();
-    });
+    closeModalBtn.addEventListener("click", closeModal);
 
     modal.addEventListener("click", function(event) {
         if (event.target == modal) {
@@ -112,6 +105,12 @@ document.addEventListener("DOMContentLoaded", function() {
             editNoteButtonHandler(event);
         }
     });
+
+    logoutBtn.addEventListener("click", function() {
+        alert('Logged out!');
+    });
+
+    setWelcomeMessage('User');
 
     displayNotes();
 });
