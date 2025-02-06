@@ -3,6 +3,8 @@
 
 This repository contains a prototype page for the "Notes in the cloud" project. The prototype allows users to view a list of notes and edit them.
 
+![Screenshot](screenshot.png)
+
 ## Features
 
 - View a list of notes
